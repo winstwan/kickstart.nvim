@@ -917,6 +917,25 @@ require('lazy').setup({
       local statusline = require 'mini.statusline'
       -- set use_icons to true if you have a Nerd Font
       statusline.setup { use_icons = vim.g.have_nerd_font }
+      -- statusline.config.content.active = function()
+      --   local git_blame = require 'gitblame'
+      --   local mode, git, diagnostics, filename, fileinfo, location = statusline.section_active()
+      --
+      --   -- Grab blame text or empty string
+      --   local blame_text = ''
+      --   if vim.b.git_blame_enabled ~= false then
+      --     blame_text = git_blame.get_current_blame_text() or ''
+      --   end
+      --
+      --   return statusline.combine_groups {
+      --     { hl = 'MiniStatuslineMode', strings = { mode } },
+      --     { hl = 'MiniStatuslineFilename', strings = { filename } },
+      --     { hl = 'MiniStatuslineDevinfo', strings = { git, diagnostics } },
+      --     { hl = 'MiniStatuslineInfo', strings = { blame_text } },
+      --     { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+      --     { hl = 'MiniStatuslineLocation', strings = { location } },
+      --   }
+      -- end
 
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
