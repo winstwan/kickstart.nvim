@@ -20,6 +20,7 @@ return {
         'eslint_d', -- ts/js linter
         'shfmt',
         'ruff',
+        'gofmt',
       },
       -- auto-install configured formatters & linters (with null-ls)
       automatic_installation = true,
@@ -60,6 +61,8 @@ return {
           'javascriptreact',
           'typescript',
           'typescriptreact',
+          'vue',
+          'css',
         },
         command = find_prettier(),
         condition = function()
@@ -70,8 +73,12 @@ return {
       formatting.stylua,
       formatting.shfmt.with { args = { '-i', '4' } },
       formatting.terraform_fmt,
+      formatting.gofmt,
       require('none-ls.formatting.ruff').with { extra_args = { '--extend-select', 'I' } },
       require 'none-ls.formatting.ruff_format',
+      require 'none-ls.diagnostics.eslint_d',
+      require 'none-ls.code_actions.eslint_d',
+      require 'none-ls.formatting.eslint_d',
     }
 
     local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
@@ -94,6 +101,16 @@ return {
                   return c.name == 'null-ls'
                 end,
               }
+            end,
+          })
+        end
+        if client.name == 'eslint_d' then
+          vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            group = augroup,
+            buffer = bufnr,
+            callback = function()
+              vim.lsp.buf.format { bufnr = bufnr }
             end,
           })
         end
